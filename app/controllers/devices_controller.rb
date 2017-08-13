@@ -1,5 +1,5 @@
 class DevicesController < ApplicationController
-  before_action :set_device, only: [:show, :edit, :update, :destroy]
+  before_action :set_device, only: [:show, :edit, :update, :destroy, :set_input]
 
   # GET /devices
   # GET /devices.json
@@ -61,6 +61,13 @@ class DevicesController < ApplicationController
     end
   end
 
+  def set_input
+    response = @device.set_current_input(value: params[:value])
+    respond_to do |format|
+      format.json { render json: response }
+    end
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_device
@@ -69,6 +76,6 @@ class DevicesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def device_params
-      params.require(:device).permit(:ip_address, :port, :type)
+      params.require(:device).permit(:ip_address, :type)
     end
 end
